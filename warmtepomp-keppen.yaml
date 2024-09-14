@@ -1,0 +1,32 @@
+esphome:
+  name: warmtepomp-kleppen
+  friendly_name: warmtepomp-kleppen
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "2s6SGaFjJE656En6qxDv0ieWdMhZm+woor6dP2oD8Sg="
+
+ota:
+  - platform: esphome
+    password: "c3d2df4acf58f52836fbfb2aeb784869"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Warmtepomp-Kleppen"
+    password: "0guWFtixWXCO"
+
+captive_portal:
+    
