@@ -203,3 +203,4 @@ switch:
 sensor:
   - platform: internal_temperature
     name: "Internal Temperature"
+    update_interval: 15s
