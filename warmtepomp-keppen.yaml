@@ -29,4 +29,175 @@ wifi:
     password: "0guWFtixWXCO"
 
 captive_portal:
-    
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  scan: true
+  id: bus_a
+
+pcf8574:
+  - id: 'pcf8575_hub'
+    address: 0x27
+    pcf8575: true
+switch:
+  - platform: gpio
+    name: "PCF8575 Pin #0"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 0
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #1"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 1
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #2"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 2
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #3"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 3
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #4"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 4
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #5"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 5
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #6"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 6
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #7"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 7
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #8"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 8
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #9"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 9
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #10"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 10
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #11"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 11
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #12"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 12
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #13"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 13
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #14"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 14
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+  - platform: gpio
+    name: "PCF8575 Pin #15"
+    pin:
+      pcf8574: pcf8575_hub
+      # Use pin number 0
+      number: 15
+      # One of INPUT or OUTPUT
+      mode:
+        output: true
+      inverted: true
+      
