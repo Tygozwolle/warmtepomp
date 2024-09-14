@@ -200,4 +200,6 @@ switch:
       mode:
         output: true
       inverted: true
-      
+sensor:
+  - platform: internal_temperature
+    name: "Internal Temperature"
