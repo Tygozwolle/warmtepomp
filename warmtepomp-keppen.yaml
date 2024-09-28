@@ -306,6 +306,10 @@ sensor:
     update_interval: 15s
   - platform: dallas_temp
     address: 0x3e9f6e5309646128
-    name: temperature_sensor1
-    update_interval: 60s
+    name: verwarming leiding naar vloerverwarming
+    update_interval: 30s
+  - platform: dallas_temp
+    address: 0x4110675309646128
+    name: temperatuur kast 
+    update_interval: 30s
   
