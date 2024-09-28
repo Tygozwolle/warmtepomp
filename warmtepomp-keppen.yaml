@@ -307,7 +307,7 @@ sensor:
   - platform: dallas_temp
     address: 0x3e9f6e5309646128
     name: verwarming leiding naar vloerverwarming
-    update_interval: 30s
+    update_interval: 5s
   - platform: dallas_temp
     address: 0x4110675309646128
     name: temperatuur kast 
