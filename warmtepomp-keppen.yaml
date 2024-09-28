@@ -104,7 +104,7 @@ switch:
     name: "PCF8575 Pin #6"
     pin:
       pcf8574: pcf8575_hub
-      # Use pin number 0
+      # Use pin number 0 
       number: 6
       # One of INPUT or OUTPUT
       mode:
@@ -114,7 +114,7 @@ switch:
     name: "PCF8575 Pin #7"
     pin:
       pcf8574: pcf8575_hub
-      # Use pin number 0
+      # Use pin number 0 
       number: 7
       # One of INPUT or OUTPUT
       mode:
@@ -126,40 +126,40 @@ switch:
       pcf8574: pcf8575_hub
       # Use pin number 0
       number: 8
-      # One of INPUT or OUTPUT
+      # One of INPUT or OUTPUT cloded
       mode:
         output: true
-      inverted: true
+      inverted: false
   - platform: gpio
     name: "PCF8575 Pin #9"
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
       number: 9
-      # One of INPUT or OUTPUT
+      # One of INPUT or OUTPUT cloded
       mode:
         output: true
-      inverted: true
+      inverted: false
   - platform: gpio
     name: "PCF8575 Pin #10"
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
       number: 10
-      # One of INPUT or OUTPUT
+      # One of INPUT or OUTPUT cloded
       mode:
         output: true
-      inverted: true
+      inverted: false
   - platform: gpio
     name: "PCF8575 Pin #11"
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
       number: 11
-      # One of INPUT or OUTPUT
+      # One of INPUT or OUTPUT cloded
       mode:
         output: true
-      inverted: true
+      inverted: false
   - platform: gpio
     name: "PCF8575 Pin #12"
     pin:
