@@ -1,7 +1,8 @@
 esphome:
   name: warmtepomp-kleppen
   friendly_name: warmtepomp-kleppen
-
+preferences:
+  flash_write_interval: 360min
 esp32:
   board: esp32dev
   framework:
@@ -270,6 +271,31 @@ switch:
   #      - switch.turn_off: aan_uit
  #       - switch.turn_off: open_closed
    #  - switch.turn_off: aan_uit
+cover:
+  - platform: time_based
+    name: "valve position"
+    id: valve_position
+    manual_control: true
+    open_action:
+      - switch.turn_on: open_valve
+    open_duration: 2min
+
+    close_action:
+      - switch.turn_on: closed_valve
+    close_duration: 2min
+
+    stop_action:
+      - switch.turn_off: open_valve
+      - switch.turn_off: closed_valve
+button:
+ - platform: template
+   name: "recalibrate valve"
+   on_press:
+      - cover.close: valve_position
+    #  - delay: 30s
+     # - switch.turn_on: closed_valve
+      #- delay: 2min
+     # - switch.turn_off: closed_valve 
 sensor:
   - platform: internal_temperature
     name: "Internal Temperature"
