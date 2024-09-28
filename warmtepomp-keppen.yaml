@@ -44,7 +44,7 @@ switch:
     name: "PCF8575 Pin #0"
     pin:
       pcf8574: pcf8575_hub
-      # Use pin number 0
+      # Use pin number 0 inschakel relay
       number: 0
       # One of INPUT or OUTPUT
       mode:
@@ -54,7 +54,7 @@ switch:
     name: "PCF8575 Pin #1"
     pin:
       pcf8574: pcf8575_hub
-      # Use pin number 0
+      # Use pin number 0 inschakel relay
       number: 1
       # One of INPUT or OUTPUT
       mode:
