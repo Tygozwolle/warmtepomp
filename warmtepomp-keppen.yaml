@@ -297,7 +297,15 @@ button:
      # - switch.turn_on: closed_valve
       #- delay: 2min
      # - switch.turn_off: closed_valve 
+one_wire:
+  - platform: gpio
+    pin: GPIO4
 sensor:
   - platform: internal_temperature
     name: "Internal Temperature"
     update_interval: 15s
+  - platform: dallas_temp
+    address: 0x3e9f6e5309646128
+    name: temperature_sensor1
+    update_interval: 60s
+  
