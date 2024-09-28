@@ -319,10 +319,14 @@ sensor:
     name: verwarming leiding naar vloerverwarming
     id: leiding_temperatuur
     update_interval: 5s
+    filters:
+      - filter_out: 85
   - platform: dallas_temp
     address: 0x4110675309646128
     name: temperatuur kast 
     update_interval: 30s
+    filters:
+      - filter_out: 85
 # climate:
 #  -  platform: thermostat
 #     name: "Thermostat Climate Controller"
