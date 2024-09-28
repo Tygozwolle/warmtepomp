@@ -124,7 +124,8 @@ switch:
         output: true
       inverted: true
   - platform: gpio
-    name: "PCF8575 Pin #8"
+    name: "woonkamer"
+    id: woonkamer
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
