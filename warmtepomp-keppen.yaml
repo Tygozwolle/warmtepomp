@@ -282,6 +282,10 @@ globals:
     type: bool
     restore_value: no
     initial_value: 'false'
+  - id: valve_position_var
+    type: float
+    restore_value: no
+    initial_value: "0.5"
 cover:
   - platform: time_based
     name: "valve position"
@@ -332,23 +336,29 @@ sensor:
 #     name: "Thermostat Climate Controller"
 #     sensor: leiding_temperatuur
 #     on_boot_restore_from: default_preset
-#     min_idle_time: 0s
-#     min_cooling_off_time: 0s
-#     min_cooling_run_time: 0s
-#     min_heating_off_time: 0s
-#     min_heating_run_time: 0s
+#     min_idle_time: 1s
+#     min_cooling_off_time: 1s
+#     min_cooling_run_time: 1s
+#     min_heating_off_time: 1s
+#     min_heating_run_time: 1s
 #     cool_action:
 #       - lambda: |-
 #           id(heating_valve)=(false);
 #           id(cooling_valve)=(true);
+#       # - switch.turn_off: open_valve
+#       # - switch.turn_on: closed_valve
 #     heat_action:
 #       - lambda: |-
 #           id(heating_valve)=(true);
 #           id(cooling_valve)=(false);
+#       # - switch.turn_off: closed_valve
+#       # - switch.turn_on: open_valve
 #     idle_action:
 #       - lambda: |-
 #           id(heating_valve)=(false);
 #           id(cooling_valve)=(false);
+#       # - switch.turn_off: open_valve
+#       # - switch.turn_off: closed_valve
 #     default_preset: Home
 #     preset:
 #       - name: Home
@@ -358,3 +368,35 @@ sensor:
 #       min_temperature: 20
 #       max_temperature: 40
 #       temperature_step: 1
+    
+# interval:
+#   - interval: 10s
+#     then:
+#       if:
+#         condition:
+#           lambda: 'return ( id(heating_valve) || id(cooling_valve)) ;'
+#         then:
+#           lambda: |-
+#             if(id(heating_valve)){
+#             id(valve_position_var) = id(valve_position).position + 0.01;
+#             if (id(valve_position_var) > 1.0) {
+#               id(valve_position_var) = 1.0;
+#             }
+
+#             //  id(valve_position).set_position(id(valve_position_var));}
+#             }
+#             else{
+#               id(valve_position_var) = id(valve_position).position - 0.01;
+#               if (id(valve_position_var) < 0.0) {
+#                 id(valve_position_var) = 0.0;
+#               }
+#              // id(valve_position).set_position(id(valve_position_var));
+#             }
+#             if (id(valve_position_var) > 0.01 && id(valve_position_var) < 0.99) {
+#             auto call = id(valve_position).make_call();
+#             logger.log: "Setting valve position to %f", id(valve_position_var)
+#             // set attributes
+#             call.set_position(id(valve_position_var));
+#             call.perform();}
+#         else:
+#           - cover.close: valve_position
