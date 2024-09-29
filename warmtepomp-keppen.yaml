@@ -155,15 +155,15 @@ switch:
         output: true
       inverted: false
   - platform: gpio
-    name: "PCF8575 Pin #11"
+    name: "Badkamer"
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
       number: 11
-      # One of INPUT or OUTPUT cloded
+      # One of INPUT or OUTPUT 
       mode:
         output: true
-      inverted: false
+      inverted: true
   - platform: gpio
     name: "PCF8575 Pin #12"
     pin:
