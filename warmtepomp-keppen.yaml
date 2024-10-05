@@ -331,6 +331,7 @@ sensor:
     #resolution: 10
     filters:
       - filter_out: 85
+      - filter_out: nan
   - platform: dallas_temp
     address: 0x4110675309646128
     name: temperatuur kast 
@@ -340,6 +341,7 @@ sensor:
     #resolution: 10
     filters:
       - filter_out: 85
+      - filter_out: nan
   - platform: dallas_temp
     address: 0x7fd0785309646128
     name: temperatuur 1 
@@ -349,6 +351,7 @@ sensor:
    # resolution: 10
     filters:
       - filter_out: 85
+      - filter_out: nan
   - platform: dallas_temp
     address: 0xe7dc7c5309646128
     name: temperatuur 2 
@@ -358,6 +361,7 @@ sensor:
   #  resolution: 10
     filters:
       - filter_out: 85
+      - filter_out: nan
   - platform: dallas_temp
     address: 0x07b37d5309646128
     name: temperatuur 3 
@@ -367,6 +371,7 @@ sensor:
    # update_interval: 30s
     filters:
       - filter_out: 85
+      - filter_out: nan
 interval:
   - interval: 5s
     then:
