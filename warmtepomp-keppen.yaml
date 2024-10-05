@@ -328,7 +328,7 @@ sensor:
     id: leiding_temperatuur
     update_interval: never
  #   update_interval: 5s
-    #resolution: 10
+    resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
@@ -338,7 +338,7 @@ sensor:
     id: temperatuur_kast
     update_interval: never
   #  update_interval: 30s
-    #resolution: 10
+    resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
@@ -348,7 +348,7 @@ sensor:
     id: temperatuur_1
     update_interval: never
   #  update_interval: 30s
-   # resolution: 10
+    resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
@@ -358,7 +358,7 @@ sensor:
     id: temperatuur_2
     update_interval: never
     #update_interval: 30s
-  #  resolution: 10
+    resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
@@ -367,7 +367,7 @@ sensor:
     name: temperatuur 3 
     id: temperatuur_3
     update_interval: never
- #   resolution: 10
+    resolution: 10
    # update_interval: 30s
     filters:
       - filter_out: 85
@@ -387,15 +387,15 @@ interval:
           condition:
             lambda: 'return ((id(seconds) % 6) == 0) ;'      
           then:
-          - delay: 1s
+          - delay: 750ms
           - component.update: temperatuur_kast
-          - delay: 1s
+          - delay: 750ms
           - component.update: temperatuur_1 
-          - delay: 1s
+          - delay: 750ms
           - component.update: temperatuur_2
-          - delay: 1s
+          - delay: 750ms
           - component.update: temperatuur_3
-          - delay: 1s
+          - delay: 750ms
       # - delay: 2s
       # - component.update: sensor2
       # - delay: 2s
