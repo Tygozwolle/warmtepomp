@@ -286,6 +286,10 @@ globals:
     type: float
     restore_value: no
     initial_value: "0.5"
+  - id: seconds
+    type: int
+    restore_value: no
+    initial_value: '0'
 cover:
   - platform: time_based
     name: "valve position"
@@ -322,15 +326,74 @@ sensor:
     address: 0x3e9f6e5309646128
     name: verwarming leiding naar vloerverwarming
     id: leiding_temperatuur
-    update_interval: 5s
+    update_interval: never
+ #   update_interval: 5s
+    resolution: 10
     filters:
       - filter_out: 85
   - platform: dallas_temp
     address: 0x4110675309646128
     name: temperatuur kast 
-    update_interval: 30s
+    id: temperatuur_kast
+    update_interval: never
+  #  update_interval: 30s
+    resolution: 10
     filters:
       - filter_out: 85
+  - platform: dallas_temp
+    address: 0x7fd0785309646128
+    name: temperatuur 1 
+    id: temperatuur_1
+    update_interval: never
+  #  update_interval: 30s
+    resolution: 10
+    filters:
+      - filter_out: 85
+  - platform: dallas_temp
+    address: 0xe7dc7c5309646128
+    name: temperatuur 2 
+    id: temperatuur_2
+    update_interval: never
+    #update_interval: 30s
+    resolution: 10
+    filters:
+      - filter_out: 85
+  - platform: dallas_temp
+    address: 0x07b37d5309646128
+    name: temperatuur 3 
+    id: temperatuur_3
+    update_interval: never
+    resolution: 10
+   # update_interval: 30s
+    filters:
+      - filter_out: 85
+interval:
+  - interval: 5s
+    then:
+      - lambda: |-
+          id(seconds) = id(seconds) + 1;
+      # - globals.set:
+      #     id: seconds
+      #     value: !lambda 'return id(seconds) + 1;'
+      #     #value: |-
+      #      # return id(seconds) + 1;
+      - component.update: leiding_temperatuur
+      - if:
+          condition:
+            lambda: 'return ((id(seconds) % 6) == 0) ;'      
+          then:
+          - delay: 350ms
+          - component.update: temperatuur_kast
+          - delay: 350ms
+          - component.update: temperatuur_1 
+          - delay: 350ms
+          - component.update: temperatuur_2
+          - delay: 350ms
+          - component.update: temperatuur_3
+      # - delay: 2s
+      # - component.update: sensor2
+      # - delay: 2s
+      
 # climate:
 #  -  platform: thermostat
 #     name: "Thermostat Climate Controller"
