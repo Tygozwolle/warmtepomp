@@ -37,7 +37,7 @@ i2c:
   id: bus_a
 
 pcf8574:
-  - id: 'pcf8575_hub'
+  - id: "pcf8575_hub"
     address: 0x27
     pcf8575: true
 switch:
@@ -103,7 +103,7 @@ switch:
       inverted: true
   - platform: gpio
     name: "PCF8575 Pin #6"
-    id: aan_uit    
+    id: aan_uit
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0 interlock aan/uit relais
@@ -160,7 +160,7 @@ switch:
       pcf8574: pcf8575_hub
       # Use pin number 0
       number: 11
-      # One of INPUT or OUTPUT 
+      # One of INPUT or OUTPUT
       mode:
         output: true
       inverted: true
@@ -205,7 +205,7 @@ switch:
         output: true
       inverted: true
   # open closed interlock
-  - platform: template 
+  - platform: template
     name: "open valve"
     id: open_valve
     lambda: |-
@@ -219,24 +219,24 @@ switch:
           condition:
             switch.is_off: closed_valve
           then:
-       #   - switch.turn_off: closed_valve
-        #  - delay: 1s
-          - switch.turn_on: aan_uit
-          - switch.turn_on: open_closed
-  #    - switch.turn_off: closed_valve   
- #     - delay: 1s
-     #  - switch.turn_on: aan_uit
-      #- switch.turn_on: open_closed
+            #   - switch.turn_off: closed_valve
+            #  - delay: 1s
+            - switch.turn_on: aan_uit
+            - switch.turn_on: open_closed
+    #    - switch.turn_off: closed_valve
+    #     - delay: 1s
+    #  - switch.turn_on: aan_uit
+    #- switch.turn_on: open_closed
     turn_off_action:
-    - if:
-        condition:
-          switch.is_off: closed_valve
-        then:
-        - switch.turn_off: aan_uit
-        - switch.turn_off: open_closed
-    # - switch.turn_off: aan_uit
+      - if:
+          condition:
+            switch.is_off: closed_valve
+          then:
+            - switch.turn_off: aan_uit
+            - switch.turn_off: open_closed
 
-  - platform: template 
+    # - switch.turn_off: aan_uit
+  - platform: template
     name: "closed valve"
     id: closed_valve
     lambda: |-
@@ -248,40 +248,37 @@ switch:
     turn_on_action:
       - if:
           condition:
-              switch.is_off: open_valve
+            switch.is_off: open_valve
           then:
             - switch.turn_off: open_closed
             - switch.turn_on: aan_uit
-              
-
       #    - switch.turn_on: open_closed
-      
 
-    #  - switch.turn_off: open_valve  
-     # - delay: 1s
- #     - switch.turn_on: aan_uit
-  #    - switch.turn_off: open_closed
+    #  - switch.turn_off: open_valve
+    # - delay: 1s
+    #     - switch.turn_on: aan_uit
+    #    - switch.turn_off: open_closed
     turn_off_action:
-     - if:
-        condition:
-          switch.is_off: open_valve
-        then:
-        - switch.turn_off: aan_uit
-        - switch.turn_off: open_closed
-   #    else:
+      - if:
+          condition:
+            switch.is_off: open_valve
+          then:
+            - switch.turn_off: aan_uit
+            - switch.turn_off: open_closed
+    #    else:
   #      - switch.turn_off: aan_uit
- #       - switch.turn_off: open_closed
-   #  - switch.turn_off: aan_ui
+  #       - switch.turn_off: open_closed
+  #  - switch.turn_off: aan_ui
 
 globals:
   - id: heating_valve
     type: bool
     restore_value: no
-    initial_value: 'false'
+    initial_value: "false"
   - id: cooling_valve
     type: bool
     restore_value: no
-    initial_value: 'false'
+    initial_value: "false"
   - id: valve_position_var
     type: float
     restore_value: no
@@ -289,7 +286,7 @@ globals:
   - id: seconds
     type: int
     restore_value: no
-    initial_value: '0'
+    initial_value: "0"
 cover:
   - platform: time_based
     name: "valve position"
@@ -307,14 +304,16 @@ cover:
       - switch.turn_off: open_valve
       - switch.turn_off: closed_valve
 button:
- - platform: template
-   name: "recalibrate valve"
-   on_press:
+  - platform: template
+    name: "recalibrate valve"
+    on_press:
       - cover.close: valve_position
-    #  - delay: 30s
-     # - switch.turn_on: closed_valve
+      #  - delay: 30s
+      # - switch.turn_on: closed_valve
       #- delay: 2min
-     # - switch.turn_off: closed_valve 
+      # - switch.turn_off: closed_valve
+  - platform: restart
+    name: "warmtepomp esp Restart"
 one_wire:
   - platform: gpio
     pin: GPIO4
@@ -327,34 +326,34 @@ sensor:
     name: verwarming leiding naar vloerverwarming
     id: leiding_temperatuur
     update_interval: never
- #   update_interval: 5s
+    #   update_interval: 5s
     resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
   - platform: dallas_temp
     address: 0x4110675309646128
-    name: temperatuur kast 
+    name: temperatuur kast
     id: temperatuur_kast
     update_interval: never
-  #  update_interval: 30s
+    #  update_interval: 30s
     resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
   - platform: dallas_temp
     address: 0x7fd0785309646128
-    name: temperatuur 1 
+    name: temperatuur 1
     id: temperatuur_1
     update_interval: never
-  #  update_interval: 30s
+    #  update_interval: 30s
     resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
   - platform: dallas_temp
     address: 0xe7dc7c5309646128
-    name: temperatuur 2 
+    name: temperatuur 2
     id: temperatuur_2
     update_interval: never
     #update_interval: 30s
@@ -364,11 +363,11 @@ sensor:
       - filter_out: nan
   - platform: dallas_temp
     address: 0x07b37d5309646128
-    name: temperatuur 3 
+    name: temperatuur 3
     id: temperatuur_3
     update_interval: never
     resolution: 10
-   # update_interval: 30s
+    # update_interval: 30s
     filters:
       - filter_out: 85
       - filter_out: nan
@@ -385,21 +384,20 @@ interval:
       - component.update: leiding_temperatuur
       - if:
           condition:
-            lambda: 'return ((id(seconds) % 6) == 0) ;'      
+            lambda: "return ((id(seconds) % 6) == 0) ;"
           then:
-          - delay: 750ms
-          - component.update: temperatuur_kast
-          - delay: 750ms
-          - component.update: temperatuur_1 
-          - delay: 750ms
-          - component.update: temperatuur_2
-          - delay: 750ms
-          - component.update: temperatuur_3
-          - delay: 750ms
+            - delay: 750ms
+            - component.update: temperatuur_kast
+            - delay: 750ms
+            - component.update: temperatuur_1
+            - delay: 750ms
+            - component.update: temperatuur_2
+            - delay: 750ms
+            - component.update: temperatuur_3
+            - delay: 750ms
       # - delay: 2s
       # - component.update: sensor2
       # - delay: 2s
-      
 # climate:
 #  -  platform: thermostat
 #     name: "Thermostat Climate Controller"
@@ -437,7 +435,7 @@ interval:
 #       min_temperature: 20
 #       max_temperature: 40
 #       temperature_step: 1
-    
+
 # interval:
 #   - interval: 10s
 #     then:
