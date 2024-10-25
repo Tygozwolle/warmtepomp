@@ -5,7 +5,7 @@ esphome:
    priority: -100
    then:
       - switch.turn_on: closed_valve
-      - delay: 120s
+      - delay: 140s
       - switch.turn_off: closed_valve
 
 preferences:
@@ -320,7 +320,7 @@ globals:
   - id: positionSeconds
     type: int
     restore_value: no
-    initial_value: "130"
+    initial_value: "20"
   # - id: temperature
   #   type: float
   #   restore_value: no
@@ -439,7 +439,7 @@ interval:
           lambda: "return ((id(heating_valve) || id(cooling_valve))&& id(circulatie_pomp).state ) ;"
         then:
          - lambda: |-
-              if(id(heating_valve) && id(positionSeconds) < 260){
+              if(id(heating_valve) && id(positionSeconds) < 160){
                 id(open_valve).turn_on();
               }
               else if(id(cooling_valve) && id(positionSeconds) > 0){
