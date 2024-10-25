@@ -1,6 +1,13 @@
 esphome:
   name: warmtepomp-kleppen
   friendly_name: warmtepomp-kleppen
+  on_boot:
+   priority: -100
+   then:
+      - switch.turn_on: closed_valve
+      - delay: 120s
+      - switch.turn_off: closed_valve
+
 preferences:
   flash_write_interval: 360min
 esp32:
@@ -43,6 +50,7 @@ pcf8574:
 switch:
   - platform: gpio
     name: "Circulatie Pomp"
+    id: circulatie_pomp
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0 inschakel relay
@@ -269,8 +277,54 @@ switch:
   #      - switch.turn_off: aan_uit
   #       - switch.turn_off: open_closed
   #  - switch.turn_off: aan_ui
+climate:
+  - platform: thermostat
+    name: "Thermostat Climate Controller"
+    sensor: leiding_temp
+    visual:
+      min_temperature: 10
+      max_temperature: 45
+      temperature_step: 0.1
+    on_boot_restore_from: default_preset
+    default_preset: Home
+    startup_delay: true
+    min_heating_run_time: 20s
+    min_cooling_run_time: 20s
+    min_cooling_off_time : 20s
+    min_heating_off_time: 20s
+    min_idle_time: 20s
+    cool_deadband: 0.1
+    heat_deadband: 0.1
+    cool_overrun: 0.1
+    heat_overrun: 0.1
+    heat_action:
+      - lambda: |-
+          id(heating_valve)=(true);
+          id(cooling_valve)=(false);
+    cool_action:
+      - lambda: |-
+          id(heating_valve)=(false);
+          id(cooling_valve)=(true);
+    idle_action:
+      - lambda: |-
+          id(heating_valve)=(false);
+          id(cooling_valve)=(false);
+    preset:
+      - name: Home
+        default_target_temperature_low: 29 °C
+        default_target_temperature_high: 31 °C
+        mode: auto
+
 
 globals:
+  - id: positionSeconds
+    type: int
+    restore_value: no
+    initial_value: "130"
+  # - id: temperature
+  #   type: float
+  #   restore_value: no
+  #   initial_value: "0.0"
   - id: heating_valve
     type: bool
     restore_value: no
@@ -371,7 +425,41 @@ sensor:
     filters:
       - filter_out: 85
       - filter_out: nan
+  - platform: template
+    id: leiding_temp
+    lambda: |-
+      return id(leiding_temperatuur).state;
+    internal: true
 interval:
+  - interval: 10s
+    startup_delay: 250s
+    then:
+     if:
+        condition:
+          lambda: "return ((id(heating_valve) || id(cooling_valve))&& id(circulatie_pomp).state ) ;"
+        then:
+         - lambda: |-
+              if(id(heating_valve) && id(positionSeconds) < 260){
+                id(open_valve).turn_on();
+              }
+              else if(id(cooling_valve) && id(positionSeconds) > 0){
+               id(closed_valve).turn_on();
+               }
+         - delay: 5s
+         - lambda: |-
+              if(id(heating_valve) ){
+                id(open_valve).turn_off();
+                id(positionSeconds) = id(positionSeconds) + 5;
+              }
+              else if(id(cooling_valve)){
+               id(closed_valve).turn_off();
+                id(positionSeconds) = id(positionSeconds) - 5;
+               }
+               else if(!id(heating_valve) && !id(cooling_valve)){
+               id(closed_valve).turn_off();
+               id(open_valve).turn_off();}
+
+
   - interval: 5s
     then:
       - lambda: |-
@@ -382,6 +470,8 @@ interval:
       #     #value: |-
       #      # return id(seconds) + 1;
       - component.update: leiding_temperatuur
+      # - lambda: |-
+      #     id(temperature) = id(leiding_temperatuur).state;
       - if:
           condition:
             lambda: "return ((id(seconds) % 6) == 0) ;"
