@@ -42,7 +42,7 @@ pcf8574:
     pcf8575: true
 switch:
   - platform: gpio
-    name: "PCF8575 Pin #0"
+    name: "Circulatie Pomp"
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0 inschakel relay
