@@ -497,7 +497,7 @@ interval:
                else if(id(cooling_valve) && id(leiding_temp).state > 40){
                id(closed_valve).turn_on();
                }
-               else{
+               else if(id(closed_valve).state || id(open_valve).state){
                id(closed_valve).turn_off();
                id(open_valve).turn_off();}
                id(positionSeconds) = id(positionSeconds) + 10;
