@@ -293,22 +293,27 @@ climate:
     min_cooling_off_time : 20s
     min_heating_off_time: 20s
     min_idle_time: 20s
-    cool_deadband: 0.1
-    heat_deadband: 0.1
+    cool_deadband: 0.5
+    heat_deadband: 0.5
     cool_overrun: 0.1
     heat_overrun: 0.1
     heat_action:
       - lambda: |-
           id(heating_valve)=(true);
           id(cooling_valve)=(false);
+          id(positionSeconds) = 0;
     cool_action:
       - lambda: |-
           id(heating_valve)=(false);
           id(cooling_valve)=(true);
+          id(positionSeconds) = 0;
     idle_action:
       - lambda: |-
           id(heating_valve)=(false);
           id(cooling_valve)=(false);
+          id(closed_valve).turn_off();
+          id(open_valve).turn_off();
+          id(positionSeconds) = 0;
     preset:
       - name: Home
         default_target_temperature_low: 29 °C
@@ -431,34 +436,54 @@ sensor:
       return id(leiding_temperatuur).state;
     internal: true
 interval:
+  # - interval: 10s
+  #   startup_delay: 250s
+  #   then:
+  #    if:
+  #       condition:
+  #         lambda: "return ((id(heating_valve) || id(cooling_valve))&& id(circulatie_pomp).state ) ;"
+  #       then:
+  #        - lambda: |-
+  #             if(id(heating_valve) && id(positionSeconds) < 160){
+  #               id(open_valve).turn_on();
+  #             }
+  #             else if(id(cooling_valve) && id(positionSeconds) > 0){
+  #              id(closed_valve).turn_on();
+  #              }
+  #        - delay: 5s
+  #        - lambda: |-
+  #             if(id(heating_valve) ){
+  #               id(open_valve).turn_off();
+  #               id(positionSeconds) = id(positionSeconds) + 5;
+  #             }
+  #             else if(id(cooling_valve)){
+  #              id(closed_valve).turn_off();
+  #               id(positionSeconds) = id(positionSeconds) - 5;
+  #              }
+  #              else if(!id(heating_valve) && !id(cooling_valve)){
+  #              id(closed_valve).turn_off();
+  #              id(open_valve).turn_off();}
   - interval: 10s
     startup_delay: 250s
     then:
      if:
         condition:
-          lambda: "return ((id(heating_valve) || id(cooling_valve))&& id(circulatie_pomp).state ) ;"
+          lambda: "return (((id(heating_valve) || id(cooling_valve))&& id(circulatie_pomp).state) || (id(open_valve).state || id(closed_valve).state) ) ;"
         then:
          - lambda: |-
               if(id(heating_valve) && id(positionSeconds) < 160){
                 id(open_valve).turn_on();
               }
-              else if(id(cooling_valve) && id(positionSeconds) > 0){
+              else if(id(cooling_valve) && id(positionSeconds) < 160){
                id(closed_valve).turn_on();
                }
-         - delay: 5s
-         - lambda: |-
-              if(id(heating_valve) ){
-                id(open_valve).turn_off();
-                id(positionSeconds) = id(positionSeconds) + 5;
-              }
-              else if(id(cooling_valve)){
-               id(closed_valve).turn_off();
-                id(positionSeconds) = id(positionSeconds) - 5;
+               else if(id(cooling_valve) && id(leiding_temp).state > 40){
+               id(closed_valve).turn_on();
                }
-               else if(!id(heating_valve) && !id(cooling_valve)){
+               else{
                id(closed_valve).turn_off();
                id(open_valve).turn_off();}
-
+               id(positionSeconds) = id(positionSeconds) + 10;
 
   - interval: 5s
     then:
