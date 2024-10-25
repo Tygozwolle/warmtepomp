@@ -143,7 +143,8 @@ switch:
         output: true
       inverted: false
   - platform: gpio
-    name: "PCF8575 Pin #9"
+    name: "kelder1"
+    id: kelder1
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
@@ -153,7 +154,8 @@ switch:
         output: true
       inverted: false
   - platform: gpio
-    name: "PCF8575 Pin #10"
+    name: "kelder2"
+    id: kelder2
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
@@ -162,6 +164,21 @@ switch:
       mode:
         output: true
       inverted: false
+  - platform: template
+    name: "kelder"
+    id: kelder
+    lambda: |-
+      if (id(kelder1).state && id(kelder2).state) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      - switch.turn_on: kelder1
+      - switch.turn_on: kelder2
+    turn_off_action:
+      - switch.turn_off: kelder1
+      - switch.turn_off: kelder2
   - platform: gpio
     name: "Badkamer"
     pin:
