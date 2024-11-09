@@ -303,13 +303,12 @@ climate:
       max_temperature: 45
       temperature_step: 0.1
     on_boot_restore_from: default_preset
-    
     default_preset: Home
     startup_delay: true
     min_heating_run_time: 1s
     min_cooling_run_time: 1s
     min_cooling_off_time : 1s
-    min_heating_off_time: 2s
+    min_heating_off_time: 20s
     min_idle_time: 1s
     cool_deadband: 0.5
     heat_deadband: 0.5
@@ -348,10 +347,6 @@ globals:
   #   type: float
   #   restore_value: no
   #   initial_value: "0.0"
-  - id: current_temperature
-    type: float
-    restore_value: no
-    initial_value: "0.0"
   - id: heating_valve
     type: bool
     restore_value: no
@@ -408,63 +403,75 @@ sensor:
     id: leiding_temperatuur
     update_interval: never
     #   update_interval: 5s
-    resolution: 9
+    resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
-    on_value:
-      then:
-        - lambda: |- 
-            id(current_temperature) = x;
-        - component.update: leiding_temp
+      - clamp:
+          min_value: 10
+          max_value: 100
+          ignore_out_of_range: true
   - platform: dallas_temp
     address: 0x4110675309646128
     name: temperatuur kast
     id: temperatuur_kast
     update_interval: never
     #  update_interval: 30s
-    resolution: 9
+    resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
+      - clamp:
+          min_value: 10
+          max_value: 100
+          ignore_out_of_range: true
   - platform: dallas_temp
     address: 0x7fd0785309646128
     name: temperatuur 1
     id: temperatuur_1
     update_interval: never
     #  update_interval: 30s
-    resolution: 9
+    resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
+      - clamp:
+          min_value: 10
+          max_value: 100
+          ignore_out_of_range: true
   - platform: dallas_temp
     address: 0xe7dc7c5309646128
     name: temperatuur 2
     id: temperatuur_2
     update_interval: never
     #update_interval: 30s
-    resolution: 9
+    resolution: 10
     filters:
       - filter_out: 85
       - filter_out: nan
+      - clamp:
+          min_value: 10
+          max_value: 100
+          ignore_out_of_range: true
   - platform: dallas_temp
     address: 0x07b37d5309646128
     name: temperatuur 3
     id: temperatuur_3
     update_interval: never
-    resolution: 9
+    resolution: 10
     # update_interval: 30s
     filters:
       - filter_out: 85
       - filter_out: nan
+      - clamp:
+          min_value: 10
+          max_value: 100
+          ignore_out_of_range: true
   - platform: template
     id: leiding_temp
     lambda: |-
-      return id(current_temperature);
-  # return id(leiding_temperatuur).state;
+      return id(leiding_temperatuur).state;
     internal: true
-    filters:
-      - filter_out: 0
 interval:
   # - interval: 10s
   #   startup_delay: 250s
@@ -494,7 +501,7 @@ interval:
   #              id(closed_valve).turn_off();
   #              id(open_valve).turn_off();}
   - interval: 10s
-    startup_delay: 160s
+    startup_delay: 250s
     then:
      if:
         condition:
