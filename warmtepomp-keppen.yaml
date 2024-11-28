@@ -190,7 +190,7 @@ switch:
         output: true
       inverted: true
   - platform: gpio
-    name: "PCF8575 Pin #12"
+    name: "masterbedroom"
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
@@ -200,7 +200,7 @@ switch:
         output: true
       inverted: true
   - platform: gpio
-    name: "PCF8575 Pin #13"
+    name: "slaapkamer tygo"
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
@@ -210,7 +210,7 @@ switch:
         output: true
       inverted: true
   - platform: gpio
-    name: "PCF8575 Pin #14"
+    name: "slaapkamer lyone"
     pin:
       pcf8574: pcf8575_hub
       # Use pin number 0
